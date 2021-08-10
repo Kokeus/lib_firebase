@@ -32,6 +32,7 @@ class _AuthFormState extends State<AuthForm> {
 
   submitForm(String email, String password, String username) async {
     final auth = FirebaseAuth.instance;
+
     UserCredential userCredential;
     try{
       if(isLoginPage){
