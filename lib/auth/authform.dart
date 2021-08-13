@@ -20,19 +20,16 @@ class _AuthFormState extends State<AuthForm> {
   //---------------------
 
   startAuthentication(){
-    var _formkey;
-    final validity = _formkey.currentState.validate();
+    final validity = _formkey.currentState!.validate();
     FocusScope.of(context).unfocus();
 
     if (validity) {
-      _formkey.currentState.save();
-      submitForm(email!, password!, username!); //?
+      _formkey.currentState!.save();
+      submitForm(email, password, username);
     }
   }
-
   submitForm(String email, String password, String username) async {
     final auth = FirebaseAuth.instance;
-
     UserCredential userCredential;
     try{
       if(isLoginPage){
@@ -66,7 +63,7 @@ class _AuthFormState extends State<AuthForm> {
           Container(
             padding: EdgeInsets.only(left: 10, right: 10, top: 10),
             child: Form(
-              key: _fromkey,
+              key: _formkey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -134,7 +131,7 @@ class _AuthFormState extends State<AuthForm> {
                         child: ElevatedButton (
                           child: isLoginPage? Text('Login') :Text('SignUp'),
                             onPressed: () {
-
+                              startAuthentication();
                             })),
                     SizedBox(height: 10),
                     Container (
@@ -151,4 +148,3 @@ class _AuthFormState extends State<AuthForm> {
       ));
   }
 }
-
