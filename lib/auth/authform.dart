@@ -12,35 +12,32 @@ class AuthForm extends StatefulWidget {
 class _AuthFormState extends State<AuthForm> {
 
   //---------------------
-  final _fromkey = GlobalKey<FormState>();
-  var email;
-  var  password;
-  var username;
+  final _formkey = GlobalKey<FormState>();
+  var email = '';
+  var password = '';
+  var username = '';
   bool isLoginPage = false;
   //---------------------
 
   startAuthentication(){
-    var _formkey;
-    final validity = _formkey.currentState.validate();
+    final validity = _formkey.currentState!.validate();
     FocusScope.of(context).unfocus();
 
     if (validity) {
-      _formkey.currentState.save();
-      submitForm(email!, password!, username!); //?
+      _formkey.currentState!.save();
+      submitForm(email, password, username);
     }
   }
-
   submitForm(String email, String password, String username) async {
     final auth = FirebaseAuth.instance;
-
     UserCredential userCredential;
     try{
       if(isLoginPage){
-        userCredential = await auth.signInWithEmailAndPassword(
+        userCredential = await auth.createUserWithEmailAndPassword(
             email: email, password: password);
       }
       else{
-        userCredential = await auth.signInWithEmailAndPassword(
+        userCredential = await auth.createUserWithEmailAndPassword(
             email: email, password: password);
       String uid = userCredential.user!.uid;
       await FirebaseFirestore.instance
@@ -53,10 +50,10 @@ class _AuthFormState extends State<AuthForm> {
       print(err);
     }
   }
-
   //---------------------
 
   @override
+
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height,
@@ -66,17 +63,17 @@ class _AuthFormState extends State<AuthForm> {
           Container(
             padding: EdgeInsets.only(left: 10, right: 10, top: 10),
             child: Form(
-              key: _fromkey,
+              key: _formkey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (!isLoginPage) // строка 15
+                    if (!isLoginPage)
                     TextFormField(
                       keyboardType: TextInputType.emailAddress,
-                      key: ValueKey('username'),
+                      key: ValueKey('User Name'),
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Incorrect username';
+                          return 'Incorrect User Name';
                         }
                         return null;
                       },
@@ -87,15 +84,15 @@ class _AuthFormState extends State<AuthForm> {
                           border: OutlineInputBorder(
                               borderRadius: new BorderRadius.circular(8.0),
                               borderSide: new BorderSide()),
-                          labelText: "Enter username"),
+                          labelText: "Enter User Name"),
                     ),
                     SizedBox(height: 10),
                     TextFormField(
                       keyboardType: TextInputType.emailAddress,
-                      key: ValueKey('email'),
+                      key: ValueKey('E-Mail'),
                       validator: (value) {
                         if (value!.isEmpty || !value.contains('@')) {
-                          return 'Incorrect Email';
+                          return 'Incorrect E-mail';
                         }
                         return null;
                       },
@@ -106,15 +103,15 @@ class _AuthFormState extends State<AuthForm> {
                         border: OutlineInputBorder(
                           borderRadius: new BorderRadius.circular(8.0),
                           borderSide: new BorderSide()),
-                      labelText: "Enter Email"),
+                      labelText: "Enter E-Mail"),
                       ),
                     SizedBox(height: 10),
                     TextFormField(
                       keyboardType: TextInputType.emailAddress,
-                      key: ValueKey('password'),
+                      key: ValueKey('Password'),
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Incorrect password';
+                          return 'Incorrect Password';
                         }
                         return null;
                       },
@@ -134,9 +131,10 @@ class _AuthFormState extends State<AuthForm> {
                         child: ElevatedButton (
                           child: isLoginPage? Text('Login') :Text('SignUp'),
                             onPressed: () {
-
+                              startAuthentication();
                             })),
                     SizedBox(height: 10),
+
                     Container (
                       child: TextButton(
                         onPressed: (){
@@ -151,4 +149,3 @@ class _AuthFormState extends State<AuthForm> {
       ));
   }
 }
-
