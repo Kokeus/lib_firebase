@@ -19,24 +19,26 @@ class _AddBookState extends State<AddBook> {
             Container(
               child: TextField(
                 decoration: InputDecoration(
-                    labelText: 'Enter Title', border: OutlineInputBorder()),
+                    labelText: 'Book name',
+                    border: OutlineInputBorder()),
               ),
             ),
             SizedBox(height: 20),
             Container(
               child: TextField(
                 decoration: InputDecoration(
-                    labelText: 'Enter Description', border: OutlineInputBorder()),
+                    labelText: 'Description book',
+                    border: OutlineInputBorder()),
               ),
             ),
-            SizedBox(height: 20),
             Container(
               width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  child: Text('Add book'),
-                  onPressed: (){},
-                ))
+              height: 50,
+              child: ElevatedButton(
+                child: Text('Add book,'),
+                onPressed: () {},
+              ),
+              ),
           ],
         ),
       ),

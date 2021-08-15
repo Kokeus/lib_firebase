@@ -148,4 +148,19 @@ class _AuthFormState extends State<AuthForm> {
         ],
       ));
   }
+
+/*Widget textField (
+  keyboardType: TextInputType.emailAddress,
+    ){
+  onSaved: (value) {
+  username = value!;
+  },
+    return TextFormField (
+      decoration: InputDecoration(
+        labelText: label,
+      ),
+    )
+
+}
+*/
 }
